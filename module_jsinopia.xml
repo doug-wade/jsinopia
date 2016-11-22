@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_jsinopia" default="compile.module.jsinopia">
+  <dirname property="module.jsinopia.basedir" file="${ant.file.module_jsinopia}"/>
+  
+  <property name="module.jdk.home.jsinopia" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.jsinopia" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.jsinopia" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.jsinopia" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="jsinopia.output.dir" value="${module.jsinopia.basedir}/out/production/jsinopia"/>
+  <property name="jsinopia.testoutput.dir" value="${module.jsinopia.basedir}/out/test/jsinopia"/>
+  
+  <path id="jsinopia.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="jsinopia.module.production.classpath">
+    <path refid="${module.jdk.classpath.jsinopia}"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  <path id="jsinopia.runtime.production.module.classpath">
+    <pathelement location="${jsinopia.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  <path id="jsinopia.module.classpath">
+    <path refid="${module.jdk.classpath.jsinopia}"/>
+    <pathelement location="${jsinopia.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  <path id="jsinopia.runtime.module.classpath">
+    <pathelement location="${jsinopia.testoutput.dir}"/>
+    <pathelement location="${jsinopia.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.jsinopia">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.jsinopia">
+    <patternset refid="excluded.from.module.jsinopia"/>
+  </patternset>
+  
+  <path id="jsinopia.module.sourcepath">
+    <dirset dir="${module.jsinopia.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.jsinopia" depends="compile.module.jsinopia.production,compile.module.jsinopia.tests" description="Compile module jsinopia"/>
+  
+  <target name="compile.module.jsinopia.production" depends="register.custom.compilers" description="Compile module jsinopia; production classes">
+    <mkdir dir="${jsinopia.output.dir}"/>
+    <javac2 destdir="${jsinopia.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.jsinopia}/javac">
+      <compilerarg line="${compiler.args.jsinopia}"/>
+      <bootclasspath refid="jsinopia.module.bootclasspath"/>
+      <classpath refid="jsinopia.module.production.classpath"/>
+      <src refid="jsinopia.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.jsinopia"/>
+    </javac2>
+    
+    <copy todir="${jsinopia.output.dir}">
+      <fileset dir="${module.jsinopia.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.jsinopia.tests" depends="register.custom.compilers,compile.module.jsinopia.production" description="compile module jsinopia; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.jsinopia" description="cleanup module">
+    <delete dir="${jsinopia.output.dir}"/>
+    <delete dir="${jsinopia.testoutput.dir}"/>
+  </target>
+</project>

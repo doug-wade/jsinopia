@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jsinopia" default="all" xmlns:ivy="antlib:org.apache.ivy.ant">
+  
+  
+  <property file="jsinopia.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.war"/>
+    <include name="*.swc"/>
+    <include name="*.apk"/>
+    <include name="*.zip"/>
+    <include name="*.ear"/>
+    <include name="*.egg"/>
+    <include name="*.ane"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/ext/cldrdata.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
+      <include name="jre/lib/ext/jfxrt.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/nashorn.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxswt.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+      <include name="lib/ant-javafx.jar"/>
+      <include name="lib/dt.jar"/>
+      <include name="lib/javafx-mx.jar"/>
+      <include name="lib/jconsole.jar"/>
+      <include name="lib/packager.jar"/>
+      <include name="lib/sa-jdi.jar"/>
+      <include name="lib/tools.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.lib.classpath">
+    <pathelement location="${basedir}/lib/commons-cli-1.0-javadoc.jar"/>
+    <pathelement location="${basedir}/lib/commons-cli-1.0-sources.jar"/>
+    <pathelement location="${basedir}/lib/commons-cli-1.0.jar"/>
+    <pathelement location="${basedir}/lib/commons-io-2.4-javadoc.jar"/>
+    <pathelement location="${basedir}/lib/commons-io-2.4-sources.jar"/>
+    <pathelement location="${basedir}/lib/commons-io-2.4.jar"/>
+    <pathelement location="${basedir}/lib/commons-lang-2.0-javadoc.jar"/>
+    <pathelement location="${basedir}/lib/commons-lang-2.0-sources.jar"/>
+    <pathelement location="${basedir}/lib/commons-lang-2.0.jar"/>
+    <pathelement location="${basedir}/lib/commons-logging-1.0.jar"/>
+    <pathelement location="${basedir}/lib/j2v8_linux_x86_64-4.6.0-javadoc.jar"/>
+    <pathelement location="${basedir}/lib/j2v8_linux_x86_64-4.6.0-sources.jar"/>
+    <pathelement location="${basedir}/lib/j2v8_linux_x86_64-4.6.0.jar"/>
+    <pathelement location="${basedir}/lib/name-suffixes-0.0.1-javadoc.jar"/>
+    <pathelement location="${basedir}/lib/name-suffixes-0.0.1-sources.jar"/>
+    <pathelement location="${basedir}/lib/name-suffixes-0.0.1.jar"/>
+  </path>
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm-all.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+
+  <!-- Dependency resolution -->
+  <property name="ivy.install.version" value="2.1.0-rc2" />
+  <property name="lib" value="lib" />
+  <property name="build" value="out" />
+  <property name="ivy.home" value="${user.home}/.ant" />
+  <property name="ivy.jar.dir" value="${ivy.home}/lib" />
+  <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
+
+  <target name="download-ivy" unless="offline">
+    <mkdir dir="${ivy.jar.dir}"/>
+    <!-- download Ivy from web site so that it can be used even without any special installation -->
+    <get src="https://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar"
+         dest="${ivy.jar.file}" usetimestamp="true"/>
+  </target>
+
+  <target name="init-ivy" depends="download-ivy">
+    <!-- try to load ivy here from ivy home, in case the user has not already dropped
+            it into ant's lib dir (note that the latter copy will always take precedence).
+            We will not fail as long as local lib dir exists (it may be empty) and
+            ivy is in at least one of ant's lib dir or the local lib dir. -->
+    <path id="ivy.lib.path">
+      <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+    </path>
+    <taskdef resource="org/apache/ivy/ant/antlib.xml"
+             uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  <import file="${basedir}/module_jsinopia.xml"/>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+
+
+  <!-- =================================
+        target: jar
+       ================================= -->
+  <target name="jar" description="--> build the jar">
+    <mkdir dir="${build}/jar"/>
+    <jar destfile="${build}/jar/JSinopia.jar" basedir="${build}/production/jsinopia/jsinopia">
+      <manifest>
+        <attribute name="Main-Class" value="io.dougwade.jsinopia.JSinopia"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <!-- =================================
+      target: run
+     ================================= -->
+  <target name="run" description="--> run the class">
+    <java classname="io.dougwade.jsinopia.JSinopia">
+      <arg value="-h"/>
+      <classpath>
+        <pathelement location="${build}/production/jsinopia/io/dougwade/jsinopia/JSinopia.class"/>
+      </classpath>
+    </java>
+  </target>
+
+  <!-- =================================
+        target: run-jar
+       ================================= -->
+  <target name="run-jar" description="--> run the jar">
+    <java jar="${build}/jar/JSinopia.jar" fork="true">
+      <classpath refid="javac2.classpath" />
+    </java>
+  </target>
+
+  <!-- =================================
+        target: resolve
+       ================================= -->
+  <target name="resolve" description="--> retrieve dependencies with ivy">
+    <ivy:retrieve />
+  </target>
+  
+  <target name="clean" depends="clean.module.jsinopia" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.jsinopia" description="build all modules"/>
+
+  <target name="all" depends="build.modules" description="build all"/>
+</project>

@@ -1,0 +1,9 @@
+<ivy-module version="2.0">
+    <info organisation="apache" module="jsinopia"/>
+    <dependencies>
+        <dependency org="com.eclipsesource.j2v8" name="j2v8_linux_x86_64" rev="4.6.0"/>
+        <!-- <dependency org="org.webjars.npm" name="sinopia" rev="1.4.0"/> -->
+        <dependency org="org.webjars.npm" name="name-suffixes" rev="0.0.1"/>
+	<dependency org="commons-io" name="commons-io" rev="2.4"/>
+    </dependencies>
+</ivy-module>
