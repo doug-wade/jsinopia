@@ -171,9 +171,9 @@
        ================================= -->
   <target name="jar" description="--> build the jar">
     <mkdir dir="${build}/jar"/>
-    <jar destfile="${build}/jar/JSinopia.jar" basedir="${build}/production/jsinopia/jsinopia">
+    <jar destfile="${build}/jar/JSinopia.jar" basedir="${build}/production/jsinopia/io/dougwade/jsinopia">
       <manifest>
-        <attribute name="Main-Class" value="io.dougwade.jsinopia.JSinopia"/>
+        <attribute name="Main-Class" value="io.dougwade.jsinopia.Main"/>
       </manifest>
     </jar>
   </target>
@@ -182,10 +182,11 @@
       target: run
      ================================= -->
   <target name="run" description="--> run the class">
-    <java classname="io.dougwade.jsinopia.JSinopia">
+    <java classname="io.dougwade.jsinopia.Main">
       <arg value="-h"/>
       <classpath>
-        <pathelement location="${build}/production/jsinopia/io/dougwade/jsinopia/JSinopia.class"/>
+        <path refid="library.lib.classpath"/>
+        <pathelement location="${build}"/>
       </classpath>
     </java>
   </target>

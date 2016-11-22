@@ -9,7 +9,7 @@ import com.eclipsesource.v8.Releasable;
 
 import java.io.File;
 
-public class JSinopia {
+public class Main {
 	public static void main(String [] args) {
 		final String BUNDLE_FILE_PATH = "bundle.js";
 
